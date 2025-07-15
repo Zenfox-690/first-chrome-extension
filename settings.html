@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Toolkit Settings</title>
+  <link rel="stylesheet" href="settings.css">
+
+  <!-- Content Security Policy for Manifest V3 -->
+  <meta http-equiv="Content-Security-Policy"
+        content="
+          default-src 'self';
+          script-src 'self';
+          style-src 'self' 'unsafe-inline';
+          img-src 'self' data:;
+          connect-src 'self' https://*;
+        ">
+</head>
+<body>
+  <div class="settings-container">
+    <div class="settings-column">
+      <h1>Settings</h1>
+
+      <!-- Playback Rate Limits Section -->
+      <div class="section">
+        <div class="section-title">Playback Rate Limits</div>
+        <label>Min Playback Speed:
+          <input type="number" id="speedMin" min="0.1" step="0.05">
+        </label>
+        <label>Max Playback Speed:
+          <input type="number" id="speedMax" min="0.1" step="0.05">
+        </label>
+      </div>
+
+      <!-- Visibility Toggles Section -->
+      <div class="section">
+        <div class="section-title">Feature Visibility</div>
+        <label><input type="checkbox" id="toggleDarkMode"> Show Dark Mode Toggle</label>
+        <label><input type="checkbox" id="toggleBrightness"> Show Brightness Control</label>
+        <label><input type="checkbox" id="togglePlayback"> Show Video Speed Control</label>
+        <label><input type="checkbox" id="toggleSaveImageAsPdf"> Show "Save Images as PDF"</label>
+        <label><input type="checkbox" id="toggleClearCache"> Show "Clear Cache & Cookies"</label>
+        <label><input type="checkbox" id="toggleChangeTitle"> Show "Change Page Title"</label>
+        <label><input type="checkbox" id="toggleSession"> Show "Session Management"</label>
+      </div>
+
+      <!-- General Notes Section -->
+      <div class="section">
+        <div class="section-title">Notes
+          <button id="addNoteBtn" class="icon-btn" aria-label="Add new note">+</button>
+        </div>
+        <div id="notesContainer">
+          <!-- General notes will be injected here -->
+        </div>
+        <template id="noteTemplate">
+          <div class="note">
+            <textarea placeholder="Type your note here..."></textarea>
+            <button class="delete-note" aria-label="Delete note">×</button>
+          </div>
+        </template>
+      </div>
+
+      <!-- Quick Notes by Site Section -->
+      <div class="section">
+        <div class="section-title">Quick Notes by Site</div>
+        <div id="siteNotesContainer">
+          <!-- Site-specific notes will be injected here -->
+        </div>
+      </div>
+
+      <!-- Export / Import Section -->
+      <div class="section">
+        <div class="section-title">Sync Configuration</div>
+        <button id="exportConfigBtn" class="icon-btn" aria-label="Export all settings">⬇️ Export Settings</button>
+        <button id="importConfigBtn" class="icon-btn" aria-label="Import settings">⬆️ Import Settings</button>
+        <input type="file" id="importConfigFile" accept="application/json" style="display:none;">
+      </div>
+    </div> <!-- Closing left settings-column -->
+
+    <!-- Right Column (Image Section) -->
+    <div class="settings-column">
+      <div class="section">
+        <div class="section-title">Image</div>
+        <button id="openImage" class="icon-btn" aria-label="Open fullscreen image">Open Image</button>
+      </div>
+    </div> <!-- Closing right settings-column -->
+  </div> <!-- Closing settings-container -->
+
+  <div class="save-button-container">
+    <button id="saveSettings">Save Settings</button>
+  </div>
+
+  <!-- Toast container for notifications -->
+  <div id="toastContainer"></div>
+
+  <!-- Load settings.js externally -->
+  <script src="settings.js" defer></script>
+</body>
+</html>

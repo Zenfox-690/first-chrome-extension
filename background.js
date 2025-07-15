@@ -1,0 +1,1 @@
+chrome.runtime.onInstalled.addListener(()=>{console.log("Dashboard Extension Installed")}),chrome.runtime.onMessage.addListener((e,s,a)=>{if("clearBrowsingData"===e.action)return chrome.browsingData.remove({since:0},{cache:!0,cookies:!0,localStorage:!0},()=>{chrome.runtime.lastError?a({success:!1,message:chrome.runtime.lastError.message}):a({success:!0})}),!0});
