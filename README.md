@@ -9,8 +9,8 @@
 
 ### 🎨 Display & Eye Care
 - **Smart Dark Mode**: Safe, CSS-inversion dark theme engine that preserves natural colors for images, videos, avatars, and icons without breaking modern web layouts.
-- **Screen Dimmer**: Smooth brightness overlay slider (0% to 85%) for late-night browsing sessions.
-- **Warm Light / Blue-Light Filter**: Amber eye-care tint (0% to 60%) to reduce eye strain.
+- **Screen Dimmer**: Smooth brightness overlay slider (0% to 100%) for comfortable eye relief.
+- **Warm Light / Blue-Light Filter**: Amber eye-care tint (0% to 100%) to reduce eye strain.
 - **Distraction-Free Reader**: One-click typography focus mode for articles and long-form content.
 
 ### ⚡ Media & Video Acceleration
@@ -88,3 +88,4 @@ first-chrome-extension/
 - **Zero Remote Code Execution**: All scripts, styles, and assets are strictly packaged locally within the extension.
 - **Minimal Permissions**: No unnecessary permissions (removed `identity`, restricted script targets).
 - **Fast & Lightweight**: Debounced storage operations and memory-efficient DOM listeners.
+
