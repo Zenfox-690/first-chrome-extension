@@ -1,98 +1,268 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Toolkit Settings</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OmniToolkit Pro - Settings & Dashboard</title>
   <link rel="stylesheet" href="settings.css">
-
-  <!-- Content Security Policy for Manifest V3 -->
-  <meta http-equiv="Content-Security-Policy"
-        content="
-          default-src 'self';
-          script-src 'self';
-          style-src 'self' 'unsafe-inline';
-          img-src 'self' data:;
-          connect-src 'self' https://*;
-        ">
 </head>
 <body>
-  <div class="settings-container">
-    <div class="settings-column">
-      <h1>Settings</h1>
-
-      <!-- Playback Rate Limits Section -->
-      <div class="section">
-        <div class="section-title">Playback Rate Limits</div>
-        <label>Min Playback Speed:
-          <input type="number" id="speedMin" min="0.1" step="0.05">
-        </label>
-        <label>Max Playback Speed:
-          <input type="number" id="speedMax" min="0.1" step="0.05">
-        </label>
+  <!-- Navigation Header -->
+  <header class="settings-navbar">
+    <div class="nav-brand">
+      <img src="icons/icon48.png" alt="Logo" class="nav-logo">
+      <div>
+        <div class="nav-title">OmniToolkit Pro <span class="badge-pro">v2.0</span></div>
+        <div class="nav-subtitle">Preferences, Site Notes & System Configuration</div>
       </div>
+    </div>
+    <div class="nav-actions">
+      <button id="exportConfigBtn" class="btn btn-secondary">
+        <span>⬇️</span> Export Backup
+      </button>
+      <button id="importConfigBtn" class="btn btn-secondary">
+        <span>⬆️</span> Restore Backup
+      </button>
+      <input type="file" id="importConfigFile" accept="application/json" style="display:none;">
+      <button id="saveTopBtn" class="btn btn-primary">
+        <span>💾</span> Save All Changes
+      </button>
+    </div>
+  </header>
 
-      <!-- Visibility Toggles Section -->
-      <div class="section">
-        <div class="section-title">Feature Visibility</div>
-        <label><input type="checkbox" id="toggleDarkMode"> Show Dark Mode Toggle</label>
-        <label><input type="checkbox" id="toggleBrightness"> Show Brightness Control</label>
-        <label><input type="checkbox" id="togglePlayback"> Show Video Speed Control</label>
-        <label><input type="checkbox" id="toggleSaveImageAsPdf"> Show "Save Images as PDF"</label>
-        <label><input type="checkbox" id="toggleClearCache"> Show "Clear Cache & Cookies"</label>
-        <label><input type="checkbox" id="toggleChangeTitle"> Show "Change Page Title"</label>
-        <label><input type="checkbox" id="toggleSession"> Show "Session Management"</label>
-      </div>
-
-      <!-- General Notes Section -->
-      <div class="section">
-        <div class="section-title">Notes
-          <button id="addNoteBtn" class="icon-btn" aria-label="Add new note">+</button>
-        </div>
-        <div id="notesContainer">
-          <!-- General notes will be injected here -->
-        </div>
-        <template id="noteTemplate">
-          <div class="note">
-            <textarea placeholder="Type your note here..."></textarea>
-            <button class="delete-note" aria-label="Delete note">×</button>
+  <div class="settings-layout">
+    <!-- Main Content Area -->
+    <main class="settings-main">
+      
+      <!-- Stats Overview Row -->
+      <section class="stats-row">
+        <div class="stat-card">
+          <div class="stat-icon">🌐</div>
+          <div class="stat-content">
+            <div class="stat-value" id="statSiteNotesCount">0</div>
+            <div class="stat-label">Sites with Notes</div>
           </div>
-        </template>
-      </div>
-
-      <!-- Quick Notes by Site Section -->
-      <div class="section">
-        <div class="section-title">Quick Notes by Site</div>
-        <div id="siteNotesContainer">
-          <!-- Site-specific notes will be injected here -->
         </div>
-      </div>
+        <div class="stat-card">
+          <div class="stat-icon">📝</div>
+          <div class="stat-content">
+            <div class="stat-value" id="statGlobalNotesCount">0</div>
+            <div class="stat-label">Global Scratchpads</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">⚡</div>
+          <div class="stat-content">
+            <div class="stat-value" id="statSpeedRange">0.25x - 4.0x</div>
+            <div class="stat-label">Speed Range</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🛡️</div>
+          <div class="stat-content">
+            <div class="stat-value">Manifest V3</div>
+            <div class="stat-label">Secure & Compliant</div>
+          </div>
+        </div>
+      </section>
 
-      <!-- Export / Import Section -->
-      <div class="section">
-        <div class="section-title">Sync Configuration</div>
-        <button id="exportConfigBtn" class="icon-btn" aria-label="Export all settings">⬇️ Export Settings</button>
-        <button id="importConfigBtn" class="icon-btn" aria-label="Import settings">⬆️ Import Settings</button>
-        <input type="file" id="importConfigFile" accept="application/json" style="display:none;">
-      </div>
-    </div> <!-- Closing left settings-column -->
+      <!-- Grid Sections -->
+      <div class="sections-grid">
+        
+        <!-- Section: Media & Playback Configuration -->
+        <div class="section-card">
+          <div class="section-header">
+            <div class="section-title">
+              <span class="section-icon">⚡</span> Video Playback Controls
+            </div>
+            <span class="section-badge">Media</span>
+          </div>
+          <div class="section-body">
+            <div class="form-row">
+              <label for="speedMin" class="form-label">
+                Minimum Allowed Speed
+                <span class="form-hint">Lowest slider limit (e.g. 0.1)</span>
+              </label>
+              <input type="number" id="speedMin" min="0.1" max="1.0" step="0.05" class="form-input">
+            </div>
+            <div class="form-row">
+              <label for="speedMax" class="form-label">
+                Maximum Allowed Speed
+                <span class="form-hint">Upper slider limit (up to 8.0x)</span>
+              </label>
+              <input type="number" id="speedMax" min="1.0" max="16.0" step="0.25" class="form-input">
+            </div>
+          </div>
+        </div>
 
-    <!-- Right Column (Image Section) -->
-    <div class="settings-column">
-      <div class="section">
-        <div class="section-title">Image</div>
-        <button id="openImage" class="icon-btn" aria-label="Open fullscreen image">Open Image</button>
-      </div>
-    </div> <!-- Closing right settings-column -->
-  </div> <!-- Closing settings-container -->
+        <!-- Section: Feature Visibility Toggles -->
+        <div class="section-card">
+          <div class="section-header">
+            <div class="section-title">
+              <span class="section-icon">🎛️</span> Popup Module Visibility
+            </div>
+            <span class="section-badge">Layout</span>
+          </div>
+          <div class="section-body">
+            <div class="toggle-list">
+              <label class="toggle-item">
+                <span class="toggle-label">Smart Dark Mode Switch</span>
+                <input type="checkbox" id="toggleDarkMode" class="toggle-checkbox">
+              </label>
+              <label class="toggle-item">
+                <span class="toggle-label">Screen Dimmer Slider</span>
+                <input type="checkbox" id="toggleBrightness" class="toggle-checkbox">
+              </label>
+              <label class="toggle-item">
+                <span class="toggle-label">Warm Eye-Saver Filter</span>
+                <input type="checkbox" id="toggleWarmFilter" class="toggle-checkbox">
+              </label>
+              <label class="toggle-item">
+                <span class="toggle-label">Video Playback Controller</span>
+                <input type="checkbox" id="togglePlayback" class="toggle-checkbox">
+              </label>
+              <label class="toggle-item">
+                <span class="toggle-label">Extract Images & PDF Tool</span>
+                <input type="checkbox" id="toggleSaveImageAsPdf" class="toggle-checkbox">
+              </label>
+              <label class="toggle-item">
+                <span class="toggle-label">Clear Site Cache & Cookies</span>
+                <input type="checkbox" id="toggleClearCache" class="toggle-checkbox">
+              </label>
+              <label class="toggle-item">
+                <span class="toggle-label">Change Page Title Tool</span>
+                <input type="checkbox" id="toggleChangeTitle" class="toggle-checkbox">
+              </label>
+            </div>
+          </div>
+        </div>
 
-  <div class="save-button-container">
-    <button id="saveSettings">Save Settings</button>
+        <!-- Section: Keyboard Shortcuts Reference -->
+        <div class="section-card">
+          <div class="section-header">
+            <div class="section-title">
+              <span class="section-icon">⌨️</span> Keyboard Shortcuts
+            </div>
+            <span class="section-badge">Hotkeys</span>
+          </div>
+          <div class="section-body">
+            <div class="shortcuts-list">
+              <div class="shortcut-item">
+                <span class="shortcut-desc">Toggle Dark Mode</span>
+                <kbd class="shortcut-kbd">Alt + Shift + D</kbd>
+              </div>
+              <div class="shortcut-item">
+                <span class="shortcut-desc">Picture-in-Picture (PiP)</span>
+                <kbd class="shortcut-kbd">Alt + Shift + P</kbd>
+              </div>
+              <div class="shortcut-item">
+                <span class="shortcut-desc">Speed Up Playback</span>
+                <kbd class="shortcut-kbd">Alt + Shift + →</kbd>
+              </div>
+              <div class="shortcut-item">
+                <span class="shortcut-desc">Slow Down Playback</span>
+                <kbd class="shortcut-kbd">Alt + Shift + ←</kbd>
+              </div>
+            </div>
+            <div class="shortcut-footer">
+              <span class="form-hint">Tip: Customize keys in Chrome at <code>chrome://extensions/shortcuts</code></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section: Wallpaper & Media Asset -->
+        <div class="section-card">
+          <div class="section-header">
+            <div class="section-title">
+              <span class="section-icon">🖼️</span> Visual Assets & Wallpapers
+            </div>
+            <span class="section-badge">Assets</span>
+          </div>
+          <div class="section-body">
+            <p class="asset-desc">
+              Preview or open the bundled high-definition wallpaper (1080p) included with this extension:
+            </p>
+            <div class="asset-actions">
+              <button id="openImage" class="btn btn-secondary">
+                <span>👁️</span> Open Wallpaper Fullscreen
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div> <!-- /sections-grid -->
+
+      <!-- Site Notes Management Center -->
+      <section class="notes-management-section">
+        <div class="section-card">
+          <div class="section-header">
+            <div class="section-title">
+              <span class="section-icon">🌐</span> Site Notes Manager
+            </div>
+            <div class="notes-header-tools">
+              <input type="text" id="siteNotesSearch" placeholder="Filter by domain..." class="form-input search-input">
+              <button id="exportNotesMarkdownBtn" class="btn btn-secondary btn-sm">
+                <span>📄</span> Export to Markdown
+              </button>
+              <button id="clearAllSiteNotesBtn" class="btn btn-danger btn-sm">
+                <span>🗑️</span> Delete All
+              </button>
+            </div>
+          </div>
+          <div class="section-body">
+            <div id="siteNotesContainer" class="site-notes-list">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Global Scratchpads Section -->
+      <section class="global-notes-section">
+        <div class="section-card">
+          <div class="section-header">
+            <div class="section-title">
+              <span class="section-icon">📝</span> Global Scratchpad Notes
+            </div>
+            <button id="addNoteBtn" class="btn btn-primary btn-sm">
+              <span>+</span> Add New Scratchpad
+            </button>
+          </div>
+          <div class="section-body">
+            <div id="notesContainer" class="global-notes-grid">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
   </div>
 
-  <!-- Toast container for notifications -->
+  <!-- Note Card Template -->
+  <template id="noteTemplate">
+    <div class="scratchpad-card">
+      <textarea placeholder="Write scratchpad thoughts, code, or snippets..."></textarea>
+      <div class="scratchpad-footer">
+        <span class="scratchpad-count">0 words</span>
+        <button class="delete-note btn-icon-danger" title="Delete scratchpad">✕</button>
+      </div>
+    </div>
+  </template>
+
+  <!-- Sticky Bottom Save Bar -->
+  <div class="sticky-save-bar">
+    <div class="save-bar-content">
+      <span>OmniToolkit Pro Configuration Engine</span>
+      <button id="saveSettings" class="btn btn-primary btn-lg">
+        <span>💾</span> Save All Preferences
+      </button>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
   <div id="toastContainer"></div>
 
-  <!-- Load settings.js externally -->
-  <script src="settings.js" defer></script>
+  <script src="settings.js"></script>
 </body>
 </html>

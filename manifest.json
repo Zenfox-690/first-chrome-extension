@@ -1,19 +1,19 @@
 {
   "manifest_version": 3,
-  "name": "Dashboard Extension",
-  "description": "A custom Chrome extension",
-  "version": "1.0",
+  "name": "OmniToolkit - Pro Web Companion",
+  "short_name": "OmniToolkit",
+  "description": "Smart dark mode, blue-light filter, screen dimmer, advanced video speed & PiP, site notes, image tools & cache manager.",
+  "version": "2.0.0",
   "background": {
     "service_worker": "background.js"
   },
   "permissions": [
-    "downloads",
     "storage",
-    "scripting",
-    "tabs",
     "activeTab",
-    "identity",
-    "browsingData"  
+    "scripting",
+    "downloads",
+    "browsingData",
+    "contextMenus"
   ],
   "host_permissions": [
     "http://*/*",
@@ -21,17 +21,62 @@
   ],
   "action": {
     "default_popup": "popup.html",
-    "default_icon": "icon.png"
+    "default_title": "OmniToolkit Pro",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "options_page": "settings.html",
+  "options_ui": {
+    "page": "settings.html",
+    "open_in_tab": true
   },
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
-      "js": ["content.js"]
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
     }
   ],
+  "commands": {
+    "toggle-dark-mode": {
+      "suggested_key": {
+        "default": "Alt+Shift+D"
+      },
+      "description": "Toggle Smart Dark Mode"
+    },
+    "toggle-pip": {
+      "suggested_key": {
+        "default": "Alt+Shift+P"
+      },
+      "description": "Toggle Picture-in-Picture for video"
+    },
+    "increase-speed": {
+      "suggested_key": {
+        "default": "Alt+Shift+Right"
+      },
+      "description": "Increase Video Playback Speed"
+    },
+    "decrease-speed": {
+      "suggested_key": {
+        "default": "Alt+Shift+Left"
+      },
+      "description": "Decrease Video Playback Speed"
+    }
+  },
   "icons": {
-    "16": "icon.png",
-    "48": "icon.png",
-    "128": "icon.png"
-  }
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["fullscreen-image.png", "icons/*"],
+      "matches": ["http://*/*", "https://*/*"]
+    }
+  ]
 }

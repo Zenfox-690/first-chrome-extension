@@ -1,62 +1,238 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Toolkit</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OmniToolkit Pro</title>
   <link rel="stylesheet" href="style.css">
-
-  <!-- Content Security Policy for Manifest V3 -->
-  <meta http-equiv="Content-Security-Policy"
-        content="
-          default-src 'self';
-          script-src 'self';
-          style-src 'self' 'unsafe-inline';
-          img-src 'self' data:;
-          connect-src 'self' https://*;
-        ">
 </head>
 <body>
-  <div class="popup-header">
-    <h1>Toolkit</h1>
-    <button id="openSettingsBtn" aria-label="Open Settings">⚙️</button>
-  </div>
+  <!-- Header -->
+  <header class="header">
+    <div class="brand">
+      <img src="icons/icon32.png" alt="OmniToolkit" class="brand-logo">
+      <div class="brand-text">
+        <div class="brand-title">OmniToolkit <span class="badge-pro">PRO</span></div>
+        <div class="active-domain" id="activeDomainDisplay" title="Active Site">🌐 Detecting...</div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button id="openSettingsBtn" class="icon-btn" title="Open Full Settings" aria-label="Settings">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+      </button>
+    </div>
+  </header>
 
-  <!-- Dark Mode Toggle -->
-  <div id="darkModeControl">
-    <label><input type="checkbox" id="darkModeToggle"> Dark Mode</label>
-  </div>
+  <!-- Navigation Tabs -->
+  <nav class="tabs-nav" role="tablist">
+    <button class="tab-btn active" data-tab="tab-display" role="tab" aria-selected="true">
+      <span>🎨</span> Display
+    </button>
+    <button class="tab-btn" data-tab="tab-media" role="tab" aria-selected="false">
+      <span>⚡</span> Media
+    </button>
+    <button class="tab-btn" data-tab="tab-tools" role="tab" aria-selected="false">
+      <span>🛠️</span> Tools
+    </button>
+    <button class="tab-btn" data-tab="tab-notes" role="tab" aria-selected="false">
+      <span>📝</span> Notes
+    </button>
+  </nav>
 
-  <!-- Brightness (Dim) Control -->
-  <div id="brightnessControl">
-    <label>Dim Screen: <span id="dimValue">0</span></label>
-    <input type="range" id="dimSlider" min="0" max="1" step="0.01" aria-label="Dim screen slider">
-  </div>
+  <!-- Main Content Areas -->
+  <main class="tabs-content">
+    
+    <!-- 1. DISPLAY TAB -->
+    <section id="tab-display" class="tab-pane active" role="tabpanel">
+      <!-- Dark Mode Card -->
+      <div class="control-card" id="darkModeControl">
+        <div class="card-row">
+          <div class="card-info">
+            <span class="card-icon">🌙</span>
+            <div>
+              <div class="card-title">Smart Dark Mode</div>
+              <div class="card-subtitle">Layout-safe dark inversion</div>
+            </div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="darkModeToggle">
+            <span class="switch-slider"></span>
+          </label>
+        </div>
+      </div>
 
-  <!-- Video Speed Control -->
-  <div id="speedControl">
-    <label>Video Speed: <span id="speedValue">1</span>x</label>
-    <input type="range" id="speedSlider" min="0.25" max="8" step="0.1" aria-label="Video speed slider">
-  </div>
+      <!-- Brightness / Dim Card -->
+      <div class="control-card" id="brightnessControl">
+        <div class="slider-header">
+          <div class="card-info">
+            <span class="card-icon">💡</span>
+            <div>
+              <div class="card-title">Screen Dimmer</div>
+              <div class="card-subtitle">Comfortable eye relief</div>
+            </div>
+          </div>
+          <span class="value-badge" id="dimValueBadge">0%</span>
+        </div>
+        <input type="range" id="dimSlider" min="0" max="0.85" step="0.05" value="0" class="range-slider">
+      </div>
 
-  <button id="resetBtn" aria-label="Reset settings to default">Reset Settings</button>
+      <!-- Warm Light / Blue Light Filter Card -->
+      <div class="control-card" id="warmFilterControl">
+        <div class="slider-header">
+          <div class="card-info">
+            <span class="card-icon">🌅</span>
+            <div>
+              <div class="card-title">Warm Light Filter</div>
+              <div class="card-subtitle">Blue-light blocker</div>
+            </div>
+          </div>
+          <span class="value-badge" id="warmValueBadge">0%</span>
+        </div>
+        <input type="range" id="warmSlider" min="0" max="0.6" step="0.05" value="0" class="range-slider range-warm">
+      </div>
 
-  <!-- Quick Note Section -->
-  <div id="quickNoteSection">
-    <button id="toggleQuickNote" aria-label="Toggle Quick Note">📝 Quick Note</button>
-    <textarea id="quickNoteTextarea" placeholder="Note for this site..." style="display:none;"></textarea>
-  </div>
+      <!-- Reader Mode Card -->
+      <div class="control-card" id="readerModeControl">
+        <div class="card-row">
+          <div class="card-info">
+            <span class="card-icon">📖</span>
+            <div>
+              <div class="card-title">Distraction-Free Reader</div>
+              <div class="card-subtitle">Focus on page text</div>
+            </div>
+          </div>
+          <button id="toggleReaderBtn" class="action-btn-sm">Toggle</button>
+        </div>
+      </div>
+    </section>
 
-  <!-- Dropdown for advanced features -->
-  <div id="dropdownArrow" role="button" tabindex="0" aria-label="Toggle extra options">▼</div>
-  <div id="dropdownMenu" class="dropdown-menu">
-    <button id="exportPDFBtn" aria-label="Save images as PDF">Save Images as PDF</button>
-    <button id="clearCacheBtn" aria-label="Clear cache and cookies">Clear Cache & Cookies</button>
-    <button id="changeTitleBtn" aria-label="Change page title">Change Page Title</button>
-    <button id="saveSessionBtn" aria-label="Save session settings">Save Session</button>
-    <button id="loadSessionBtn" aria-label="Load session settings">Load Session</button>
-  </div>
+    <!-- 2. MEDIA TAB -->
+    <section id="tab-media" class="tab-pane" role="tabpanel">
+      <!-- Playback Speed Control -->
+      <div class="control-card" id="speedControl">
+        <div class="slider-header">
+          <div class="card-info">
+            <span class="card-icon">⚡</span>
+            <div>
+              <div class="card-title">Video Playback Rate</div>
+              <div class="card-subtitle">Fast forward or slow down</div>
+            </div>
+          </div>
+          <span class="value-badge highlight" id="speedValueBadge">1.0x</span>
+        </div>
+        <input type="range" id="speedSlider" min="0.25" max="4.0" step="0.05" value="1.0" class="range-slider">
+        
+        <!-- Quick Preset Chips -->
+        <div class="chips-row">
+          <button class="chip-btn" data-speed="0.75">0.75x</button>
+          <button class="chip-btn active" data-speed="1.0">1.0x</button>
+          <button class="chip-btn" data-speed="1.25">1.25x</button>
+          <button class="chip-btn" data-speed="1.5">1.5x</button>
+          <button class="chip-btn" data-speed="2.0">2.0x</button>
+          <button class="chip-btn" data-speed="3.0">3.0x</button>
+        </div>
+      </div>
 
-  <!-- Toast container -->
+      <!-- Media Actions Grid -->
+      <div class="tools-grid">
+        <button id="pipBtn" class="tool-tile">
+          <span class="tool-icon">📺</span>
+          <span class="tool-label">Picture-in-Picture</span>
+        </button>
+        <button id="captureFrameBtn" class="tool-tile">
+          <span class="tool-icon">📸</span>
+          <span class="tool-label">Frame Screenshot</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- 3. TOOLS TAB -->
+    <section id="tab-tools" class="tab-pane" role="tabpanel">
+      <div class="tools-list">
+        <!-- Image Extractor & PDF -->
+        <button id="exportPDFBtn" class="tool-row-btn">
+          <div class="tool-row-left">
+            <span class="tool-row-icon">🖼️</span>
+            <div>
+              <div class="tool-row-title">Extract Images & PDF</div>
+              <div class="tool-row-desc">Preview, batch download & export</div>
+            </div>
+          </div>
+          <span class="chevron">›</span>
+        </button>
+
+        <!-- Change Page Title -->
+        <button id="changeTitleBtn" class="tool-row-btn">
+          <div class="tool-row-left">
+            <span class="tool-row-icon">✏️</span>
+            <div>
+              <div class="tool-row-title">Rename Page Title</div>
+              <div class="tool-row-desc">Organize tabs with custom titles</div>
+            </div>
+          </div>
+          <span class="chevron">›</span>
+        </button>
+
+        <!-- Clear Site Cache & Cookies -->
+        <button id="clearCacheBtn" class="tool-row-btn danger">
+          <div class="tool-row-left">
+            <span class="tool-row-icon">🧹</span>
+            <div>
+              <div class="tool-row-title">Clear Site Data</div>
+              <div class="tool-row-desc">Clear cookies, storage & cache</div>
+            </div>
+          </div>
+          <span class="chevron">›</span>
+        </button>
+      </div>
+
+      <!-- Session State -->
+      <div class="session-card">
+        <div class="session-title">Quick Preset Snapshot</div>
+        <div class="session-btns">
+          <button id="saveSessionBtn" class="session-btn">💾 Save Snapshot</button>
+          <button id="loadSessionBtn" class="session-btn">📂 Load Snapshot</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. NOTES TAB -->
+    <section id="tab-notes" class="tab-pane" role="tabpanel">
+      <div class="notes-header">
+        <div class="notes-domain-badge">
+          <span>📌</span> <span id="notesDomainName">Site Note</span>
+        </div>
+        <div class="notes-counter" id="noteWordCount">0 words</div>
+      </div>
+      <div class="textarea-container">
+        <textarea id="quickNoteTextarea" placeholder="Type quick notes, scratchpad, code snippets, or links for this domain..."></textarea>
+      </div>
+      <div class="notes-actions">
+        <button id="copyNoteBtn" class="action-btn-sm secondary">📋 Copy</button>
+        <button id="clearNoteBtn" class="action-btn-sm danger">🗑️ Clear</button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <button id="resetBtn" class="footer-btn">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+        <path d="M3 3v5h5"></path>
+      </svg>
+      Reset Current Page
+    </button>
+    <div class="footer-meta">
+      <span id="versionLabel">v2.0</span>
+    </div>
+  </footer>
+
+  <!-- Toast Container -->
   <div id="toastContainer"></div>
 
   <script src="popup.js"></script>
